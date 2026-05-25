@@ -79,7 +79,8 @@ const Services = () => {
                 <div
                   key={service.id}
                   onMouseEnter={() => setActiveIdx(index)}
-                  className="py-8 cursor-pointer flex flex-col md:flex-row items-start md:items-center justify-between gap-6 transition-all group"
+                  onClick={() => setActiveIdx(index)}
+                  className="py-8 cursor-pointer flex flex-col md:flex-row items-start md:items-center justify-between gap-6 transition-all group pointer-events-auto"
                 >
                   <div className="flex items-start gap-6 md:gap-8 flex-grow">
                     {/* Index */}
@@ -88,18 +89,31 @@ const Services = () => {
                     </span>
 
                     {/* Title & Desc */}
-                    <div className="space-y-2 max-w-xl">
+                    <div className="space-y-2 max-w-xl w-full">
                       <h3 className={`text-xl md:text-2xl font-black uppercase transition-colors tracking-tight ${isActive ? 'text-white' : 'text-white/40 group-hover:text-white/80'}`}>
                         {service.title}
                       </h3>
                       {isActive && (
-                        <motion.p
-                          initial={{ opacity: 0, y: 10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          className="text-gray-400 text-xs md:text-sm font-light leading-relaxed"
+                        <motion.div
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: "auto" }}
+                          transition={{ duration: 0.3, ease: "easeOut" }}
+                          className="space-y-4 pt-2 overflow-hidden"
                         >
-                          {service.desc}
-                        </motion.p>
+                          {/* Mobile-only Inline Image with Premium Frame Accent */}
+                          <div className="lg:hidden w-full aspect-[4/3] rounded-xs border border-white/10 relative overflow-hidden bg-zinc-950">
+                            <img
+                              src={service.image}
+                              alt={service.title}
+                              className="w-full h-full object-cover grayscale brightness-90"
+                            />
+                            <div className="absolute top-0 right-0 w-6 h-6 border-t-2 border-r-2 border-[#ea222d] pointer-events-none" />
+                            <div className="absolute bottom-0 left-0 w-6 h-6 border-b-2 border-l-2 border-[#ea222d] pointer-events-none" />
+                          </div>
+                          <p className="text-gray-400 text-xs md:text-sm font-light leading-relaxed">
+                            {service.desc}
+                          </p>
+                        </motion.div>
                       )}
                     </div>
                   </div>

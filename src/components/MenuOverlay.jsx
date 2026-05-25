@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const menuItems = [
@@ -12,6 +12,29 @@ const menuItems = [
 ];
 
 const MenuOverlay = ({ isOpen, onClose }) => {
+  const [hoveredIndex, setHoveredIndex] = useState(null);
+
+  // Lock body scroll and handle escape key
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") {
+        onClose();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isOpen, onClose]);
+
   const handleItemClick = (id) => {
     const element = document.getElementById(id);
     if (element) {
@@ -29,18 +52,41 @@ const MenuOverlay = ({ isOpen, onClose }) => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-xl flex flex-col items-center justify-center overflow-hidden"
+          className="fixed inset-0 z-[90] bg-black/95 backdrop-blur-xl flex flex-col items-center justify-center overflow-hidden pointer-events-auto"
         >
-          {/* Close Button */}
+          {/* Subtle hovered cinematic background image */}
+          <AnimatePresence mode="wait">
+            {hoveredIndex !== null && (
+              <motion.div
+                key={hoveredIndex}
+                initial={{ opacity: 0, scale: 1.05 }}
+                animate={{ opacity: 0.15, scale: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.4 }}
+                className="absolute inset-0 z-0 pointer-events-none"
+                style={{
+                  backgroundImage: `url(${menuItems[hoveredIndex].image})`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                  filter: 'grayscale(50%) contrast(120%)',
+                }}
+              />
+            )}
+          </AnimatePresence>
+
+          {/* Grain texture/cinematic overlay */}
+          <div className="absolute inset-0 z-0 opacity-[0.03] bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none" />
+
+          {/* Close Button - Hidden on mobile since we have the main hamburger button */}
           <button 
             onClick={onClose}
-            className="absolute top-10 right-10 text-white/50 hover:text-white transition-colors text-xs tracking-widest uppercase font-bold z-10"
+            className="absolute top-10 right-10 text-white/50 hover:text-white transition-colors text-xs tracking-widest uppercase font-bold z-10 hidden md:block"
           >
             Close [ESC]
           </button>
 
-          {/* Arch Menu Container */}
-          <div className="relative w-full max-w-7xl h-[40vh] flex items-end justify-center">
+          {/* Arch Menu Container (Desktop/Tablet) */}
+          <div className="relative w-full max-w-7xl h-[40vh] items-end justify-center hidden md:flex z-10">
             {menuItems.map((item, index) => {
               const totalItems = menuItems.length;
               const angleStep = 100 / (totalItems - 1); // Fit 7 items
@@ -63,6 +109,8 @@ const MenuOverlay = ({ isOpen, onClose }) => {
                     zIndex: 20,
                     transition: { duration: 0.3 }
                   }}
+                  onMouseEnter={() => setHoveredIndex(index)}
+                  onMouseLeave={() => setHoveredIndex(null)}
                   transition={{ 
                     delay: index * 0.04, 
                     duration: 0.8, 
@@ -86,10 +134,46 @@ const MenuOverlay = ({ isOpen, onClose }) => {
             })}
           </div>
 
+          {/* Premium Vertical Mobile List (Phone) */}
+          <div className="relative w-full max-w-md flex flex-col items-center justify-center px-8 py-10 md:hidden z-10 space-y-6">
+            {menuItems.map((item, index) => (
+              <motion.div
+                key={item.id}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ 
+                  delay: index * 0.06, 
+                  duration: 0.6, 
+                  ease: [0.22, 1, 0.36, 1] 
+                }}
+                onClick={() => handleItemClick(item.id)}
+                onMouseEnter={() => setHoveredIndex(index)}
+                onMouseLeave={() => setHoveredIndex(null)}
+                onTouchStart={() => setHoveredIndex(index)}
+                className="w-full flex items-center justify-between py-3 border-b border-white/5 cursor-pointer group"
+              >
+                <div className="flex items-baseline space-x-4">
+                  <span className="text-[10px] font-mono tracking-widest text-[#ea222d] font-bold">
+                    {(index + 1).toString().padStart(2, "0")}
+                  </span>
+                  <span className="text-2xl font-black tracking-tighter uppercase text-white group-hover:text-[#ea222d] transition-colors duration-300">
+                    {item.name}
+                  </span>
+                </div>
+                <motion.span 
+                  initial={{ x: -5, opacity: 0 }}
+                  whileHover={{ x: 0, opacity: 1 }}
+                  className="text-[#ea222d] text-lg font-black hidden group-hover:inline-block transition-all duration-300"
+                >
+                  →
+                </motion.span>
+              </motion.div>
+            ))}
+          </div>
 
           {/* Large Background Text */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 pointer-events-none opacity-5">
-            <h1 className="text-[20vw] font-black tracking-tighter uppercase leading-none text-white">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 pointer-events-none opacity-[0.02] md:opacity-5">
+            <h1 className="text-[25vw] md:text-[20vw] font-black tracking-tighter uppercase leading-none text-white select-none">
               LEELA
             </h1>
           </div>
