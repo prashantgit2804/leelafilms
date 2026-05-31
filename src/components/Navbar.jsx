@@ -5,8 +5,9 @@ import logo from "../assets/images/logo.png";
 
 const navItems = [
   { name: "HOME", id: "hero" },
-  { name: "PROJECTS", id: "projects" },
+  // { name: "PROJECTS", id: "projects" },
   { name: "SERVICES", id: "services" },
+  { name: "PILLARS", id: "pillars" },
   { name: "ABOUT", id: "about" },
   { name: "WAY FORWARD", id: "wayforward" },
   { name: "TEAM", id: "team" },

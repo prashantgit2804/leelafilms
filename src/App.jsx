@@ -6,6 +6,7 @@ import MamaMentality from "./sections/MamaMentality";
 import Projects from "./sections/Projects";
 import Services from "./sections/Services";
 import About from "./sections/About";
+import FourPillars from "./sections/FourPillars";
 import WayForward from "./sections/WayForward";
 import Team from "./sections/Team";
 import Contact from "./sections/Contact";
@@ -51,10 +52,13 @@ function App() {
         <MamaMentality />
         
         {/* Portfolio reel */}
-        <Projects onProjectClick={setSelectedProject} />
+        {/* <Projects onProjectClick={setSelectedProject} /> */}
         
         {/* Core Services grid */}
         <Services />
+        
+        {/* Foundational Pillars (Review Slide Cards) */}
+        <FourPillars />
         
         {/* Company Bio, Mission & Vision */}
         <About />

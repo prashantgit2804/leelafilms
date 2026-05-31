@@ -5,6 +5,7 @@ const menuItems = [
   { name: "HOME", id: "hero", image: "https://images.unsplash.com/photo-1485846234645-a62644f84728?q=80&w=2059&auto=format&fit=crop" },
   { name: "PROJECTS", id: "projects", image: "https://images.unsplash.com/photo-1492691523567-6119e2aa99df?q=80&w=2070&auto=format&fit=crop" },
   { name: "SERVICES", id: "services", image: "https://images.unsplash.com/photo-1518676590629-3dcbd9c5a5c9?q=80&w=1726&auto=format&fit=crop" },
+  { name: "PILLARS", id: "pillars", image: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=1450&auto=format&fit=crop" },
   { name: "ABOUT", id: "about", image: "https://images.unsplash.com/photo-1518676590629-3dcbd9c5a5c9?q=80&w=1726&auto=format&fit=crop" },
   { name: "WAY FORWARD", id: "wayforward", image: "https://images.unsplash.com/photo-1505686994434-e3cc5abf1330?q=80&w=2073&auto=format&fit=crop" },
   { name: "TEAM", id: "team", image: "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?q=80&w=2070&auto=format&fit=crop" },
