@@ -2,14 +2,60 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const menuItems = [
-  { name: "HOME", id: "hero", image: "https://images.unsplash.com/photo-1485846234645-a62644f84728?q=80&w=2059&auto=format&fit=crop" },
-  { name: "PROJECTS", id: "projects", image: "https://images.unsplash.com/photo-1492691523567-6119e2aa99df?q=80&w=2070&auto=format&fit=crop" },
-  { name: "SERVICES", id: "services", image: "https://images.unsplash.com/photo-1518676590629-3dcbd9c5a5c9?q=80&w=1726&auto=format&fit=crop" },
-  { name: "PILLARS", id: "pillars", image: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=1450&auto=format&fit=crop" },
-  { name: "ABOUT", id: "about", image: "https://images.unsplash.com/photo-1518676590629-3dcbd9c5a5c9?q=80&w=1726&auto=format&fit=crop" },
-  { name: "WAY FORWARD", id: "wayforward", image: "https://images.unsplash.com/photo-1505686994434-e3cc5abf1330?q=80&w=2073&auto=format&fit=crop" },
-  { name: "TEAM", id: "team", image: "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?q=80&w=2070&auto=format&fit=crop" },
-  { name: "CONTACT", id: "contact", image: "https://images.unsplash.com/photo-1486848538183-510c07596379?q=80&w=1955&auto=format&fit=crop" },
+  {
+    name: "HOME",
+    id: "hero",
+    image:
+      "https://images.unsplash.com/photo-1485846234645-a62644f84728?q=80&w=2059&auto=format&fit=crop",
+  },
+  {
+    name: "PROJECTS",
+    id: "projects",
+    image:
+      "https://images.unsplash.com/photo-1492691523567-6119e2aa99df?q=80&w=2070&auto=format&fit=crop",
+  },
+  {
+    name: "SERVICES",
+    id: "services",
+    image:
+      "https://images.unsplash.com/photo-1518676590629-3dcbd9c5a5c9?q=80&w=1726&auto=format&fit=crop",
+  },
+  {
+    name: "PILLARS",
+    id: "pillars",
+    image:
+      "https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=1450&auto=format&fit=crop",
+  },
+  {
+    name: "ABOUT",
+    id: "about",
+    image:
+      "https://images.unsplash.com/photo-1518676590629-3dcbd9c5a5c9?q=80&w=1726&auto=format&fit=crop",
+  },
+  {
+    name: "WAY FORWARD",
+    id: "wayforward",
+    image:
+      "https://images.unsplash.com/photo-1505686994434-e3cc5abf1330?q=80&w=2073&auto=format&fit=crop",
+  },
+  {
+    name: "TEAM",
+    id: "team",
+    image:
+      "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?q=80&w=2070&auto=format&fit=crop",
+  },
+  {
+    name: "BLOGS",
+    id: "blogs",
+    image:
+      "https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=1974&auto=format&fit=crop",
+  },
+  {
+    name: "CONTACT",
+    id: "contact",
+    image:
+      "https://images.unsplash.com/photo-1486848538183-510c07596379?q=80&w=1955&auto=format&fit=crop",
+  },
 ];
 
 const MenuOverlay = ({ isOpen, onClose }) => {
@@ -39,8 +85,9 @@ const MenuOverlay = ({ isOpen, onClose }) => {
   const handleItemClick = (id) => {
     const element = document.getElementById(id);
     if (element) {
-      const yOffset = -80; 
-      const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      const yOffset = -80;
+      const y =
+        element.getBoundingClientRect().top + window.pageYOffset + yOffset;
       window.scrollTo({ top: y, behavior: "smooth" });
     }
     onClose();
@@ -67,9 +114,9 @@ const MenuOverlay = ({ isOpen, onClose }) => {
                 className="absolute inset-0 z-0 pointer-events-none"
                 style={{
                   backgroundImage: `url(${menuItems[hoveredIndex].image})`,
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                  filter: 'grayscale(50%) contrast(120%)',
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                  filter: "grayscale(50%) contrast(120%)",
                 }}
               />
             )}
@@ -79,7 +126,7 @@ const MenuOverlay = ({ isOpen, onClose }) => {
           <div className="absolute inset-0 z-0 opacity-[0.03] bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none" />
 
           {/* Close Button - Hidden on mobile since we have the main hamburger button */}
-          <button 
+          <button
             onClick={onClose}
             className="absolute top-10 right-10 text-white/50 hover:text-white transition-colors text-xs tracking-widest uppercase font-bold z-10 hidden md:block"
           >
@@ -98,37 +145,33 @@ const MenuOverlay = ({ isOpen, onClose }) => {
                 <motion.div
                   key={item.id}
                   initial={{ opacity: 0, y: 100, rotate: 0 }}
-                  animate={{ 
-                    opacity: 1, 
-                    y: -Math.cos((angle * Math.PI) / 180) * 100, 
+                  animate={{
+                    opacity: 1,
+                    y: -Math.cos((angle * Math.PI) / 180) * 100,
                     x: Math.sin((angle * Math.PI) / 180) * radius * 0.7,
                     rotate: angle,
                   }}
-                  whileHover={{ 
-                    scale: 1.15, 
+                  whileHover={{
+                    scale: 1.15,
                     y: -Math.cos((angle * Math.PI) / 180) * 130,
                     zIndex: 20,
-                    transition: { duration: 0.3 }
+                    transition: { duration: 0.3 },
                   }}
                   onMouseEnter={() => setHoveredIndex(index)}
                   onMouseLeave={() => setHoveredIndex(null)}
-                  transition={{ 
-                    delay: index * 0.04, 
-                    duration: 0.8, 
-                    ease: [0.22, 1, 0.36, 1] 
+                  transition={{
+                    delay: index * 0.04,
+                    duration: 0.8,
+                    ease: [0.22, 1, 0.36, 1],
                   }}
                   onClick={() => handleItemClick(item.id)}
                   className="absolute cursor-pointer origin-bottom py-10 px-4 group"
                 >
                   <div className="relative flex flex-col items-center">
-                    <motion.p 
-                      className="text-white text-3xl md:text-5xl font-black tracking-tighter uppercase leading-none transition-all duration-300 group-hover:text-[#ea222d]"
-                    >
+                    <motion.p className="text-white text-3xl md:text-5xl font-black tracking-tighter uppercase leading-none transition-all duration-300 group-hover:text-[#ea222d]">
                       {item.name}
                     </motion.p>
-                    <motion.div 
-                      className="w-0 h-[3px] bg-[#ea222d] mt-2 group-hover:w-full transition-all duration-500 rounded-full"
-                    />
+                    <motion.div className="w-0 h-[3px] bg-[#ea222d] mt-2 group-hover:w-full transition-all duration-500 rounded-full" />
                   </div>
                 </motion.div>
               );
@@ -142,10 +185,10 @@ const MenuOverlay = ({ isOpen, onClose }) => {
                 key={item.id}
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ 
-                  delay: index * 0.06, 
-                  duration: 0.6, 
-                  ease: [0.22, 1, 0.36, 1] 
+                transition={{
+                  delay: index * 0.06,
+                  duration: 0.6,
+                  ease: [0.22, 1, 0.36, 1],
                 }}
                 onClick={() => handleItemClick(item.id)}
                 onMouseEnter={() => setHoveredIndex(index)}
@@ -161,7 +204,7 @@ const MenuOverlay = ({ isOpen, onClose }) => {
                     {item.name}
                   </span>
                 </div>
-                <motion.span 
+                <motion.span
                   initial={{ x: -5, opacity: 0 }}
                   whileHover={{ x: 0, opacity: 1 }}
                   className="text-[#ea222d] text-lg font-black hidden group-hover:inline-block transition-all duration-300"

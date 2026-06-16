@@ -116,7 +116,7 @@ const FourPillars = () => {
   };
 
   return (
-    <section id="pillars" className="relative py-24 md:py-36 bg-[#221e1f] overflow-hidden border-t border-white/5">
+    <section id="pillars" className="relative py-24 md:py-36 bg-primary overflow-hidden border-t border-white/5">
       {/* Dynamic Cinematic Watermark Text */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 select-none pointer-events-none opacity-[0.03] font-black text-[22vw] tracking-tighter uppercase whitespace-nowrap text-white">
         {activePillar.title.split(" ")[0]}

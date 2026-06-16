@@ -11,6 +11,7 @@ const navItems = [
   { name: "ABOUT", id: "about" },
   { name: "WAY FORWARD", id: "wayforward" },
   { name: "TEAM", id: "team" },
+  { name: "BLOGS", id: "blogs" },
   { name: "CONTACT", id: "contact" },
 ];
 
@@ -30,8 +31,9 @@ const Navbar = () => {
     const element = document.getElementById(id);
     if (element) {
       // Offset for sticky navigation header
-      const yOffset = -80; 
-      const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      const yOffset = -80;
+      const y =
+        element.getBoundingClientRect().top + window.pageYOffset + yOffset;
       window.scrollTo({ top: y, behavior: "smooth" });
     }
   };
@@ -40,7 +42,9 @@ const Navbar = () => {
     <>
       <nav className="fixed top-0 left-0 w-full z-[100] pointer-events-none transition-colors duration-500">
         {/* Subtle background for the Arch - Ultra Slim */}
-        <div className={`absolute inset-0 h-24 transition-all duration-500 ${scrolled || menuOpen ? 'bg-black/90 backdrop-blur-md opacity-100 border-b border-white/5' : 'bg-transparent opacity-0'}`} />
+        <div
+          className={`absolute inset-0 h-24 transition-all duration-500 ${scrolled || menuOpen ? "bg-black/90 backdrop-blur-md opacity-100 border-b border-white/5" : "bg-transparent opacity-0"}`}
+        />
 
         <div className="container mx-auto px-6 h-24 relative flex items-start justify-between">
           {/* Logo - Pinned top-left */}
@@ -53,9 +57,9 @@ const Navbar = () => {
               setMenuOpen(false);
             }}
           >
-            <img 
-              src={logo} 
-              alt="Leela Films Logo" 
+            <img
+              src={logo}
+              alt="Leela Films Logo"
               className="h-10 md:h-12 w-auto object-contain hover:scale-105 transition-transform duration-300"
             />
           </motion.div>
@@ -92,10 +96,14 @@ const Navbar = () => {
                   className="absolute cursor-pointer pointer-events-auto group px-3 py-2"
                 >
                   <div className="flex flex-col items-center">
-                    <h3 className={`text-[10px] md:text-[11px] font-black tracking-[0.2em] uppercase transition-colors duration-500 leading-none ${scrolled ? 'text-white/60 group-hover:text-[#ea222d]' : 'text-white/80 group-hover:text-[#ea222d]'}`}>
+                    <h3
+                      className={`text-[10px] md:text-[11px] font-black tracking-[0.2em] uppercase transition-colors duration-500 leading-none ${scrolled ? "text-white/60 group-hover:text-[#ea222d]" : "text-white/80 group-hover:text-[#ea222d]"}`}
+                    >
                       {item.name}
                     </h3>
-                    <div className={`w-0 h-[1.5px] transition-all duration-500 rounded-full mt-1 ${scrolled ? 'bg-[#ea222d] group-hover:w-full' : 'bg-[#ea222d] group-hover:w-full'}`} />
+                    <div
+                      className={`w-0 h-[1.5px] transition-all duration-500 rounded-full mt-1 ${scrolled ? "bg-[#ea222d] group-hover:w-full" : "bg-[#ea222d] group-hover:w-full"}`}
+                    />
                   </div>
                 </motion.div>
               );
@@ -122,7 +130,9 @@ const Navbar = () => {
                 className="w-full h-[2px] bg-white rounded-full"
               />
               <motion.span
-                animate={menuOpen ? { rotate: -45, y: -7 } : { rotate: 0, y: 0 }}
+                animate={
+                  menuOpen ? { rotate: -45, y: -7 } : { rotate: 0, y: 0 }
+                }
                 transition={{ duration: 0.3 }}
                 className="w-full h-[2px] bg-white rounded-full origin-center"
               />

@@ -6,8 +6,8 @@
 
 :root {
   /* Colors */
-  --bg-primary: #221e1f;
-  --bg-secondary: #2d292a;
+  --bg-primary: #000000;
+  --bg-secondary: #121212;
   --bg-accent: rgba(234, 34, 45, 0.05);
 
   --text-main: #ffffff;
@@ -73,7 +73,6 @@ h6 {
   font-family: "Poppins", sans-serif;
 }
 
-
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
@@ -107,7 +106,6 @@ h6 {
 
 /* Hide scrollbar for IE, Edge and Firefox */
 .no-scrollbar {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
-
