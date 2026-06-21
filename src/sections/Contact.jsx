@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Phone, MapPin, User, Mail, Send, Award } from "lucide-react";
+import api from "../utils/api";
 
 const groupInfrastructure = [
   "Leela Partner Limited",
@@ -13,9 +14,69 @@ const groupInfrastructure = [
 ];
 
 const Contact = () => {
-  const handleSubmit = (e) => {
+  const [formData, setFormData] = useState({
+    fullName: "",
+    email: "",
+    interest: "Brand Campaign & TVC",
+    message: "",
+  });
+  const [status, setStatus] = useState({
+    submitting: false,
+    success: null,
+    message: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert("Thank you! Your collaboration request has been received.");
+    setStatus({ submitting: true, success: null, message: "" });
+
+    try {
+      const response = await api.post("contact/", {
+        full_name: formData.fullName,
+        email: formData.email,
+        interest: formData.interest,
+        message: formData.message,
+      });
+
+      setStatus({
+        submitting: false,
+        success: true,
+        message: response.message || "Thank you! Your collaboration request has been received.",
+      });
+
+      setFormData({
+        fullName: "",
+        email: "",
+        interest: "Brand Campaign & TVC",
+        message: "",
+      });
+    } catch (error) {
+      let errorMsg = error.data?.message || error.message || "Something went wrong. Please try again.";
+      if (error.data?.errors) {
+        const errorDetails = Object.entries(error.data.errors)
+          .map(([field, msgs]) => {
+            const fieldLabel = field.replace("_", " ").toUpperCase();
+            return `${fieldLabel}: ${Array.isArray(msgs) ? msgs.join(" ") : msgs}`;
+          })
+          .join(" | ");
+        if (errorDetails) {
+          errorMsg = `${errorMsg} (${errorDetails})`;
+        }
+      }
+      setStatus({
+        submitting: false,
+        success: false,
+        message: errorMsg,
+      });
+    }
   };
 
   return (
@@ -56,6 +117,9 @@ const Contact = () => {
                     <input 
                       type="text" 
                       required
+                      name="fullName"
+                      value={formData.fullName}
+                      onChange={handleChange}
                       placeholder="Your name" 
                       className="w-full bg-black/40 border border-white/10 p-3 pl-10 rounded-sm text-sm text-white placeholder-gray-600 focus:outline-none focus:border-[#ea222d] transition-all"
                     />
@@ -68,6 +132,9 @@ const Contact = () => {
                     <input 
                       type="email" 
                       required
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
                       placeholder="Your email" 
                       className="w-full bg-black/40 border border-white/10 p-3 pl-10 rounded-sm text-sm text-white placeholder-gray-600 focus:outline-none focus:border-[#ea222d] transition-all"
                     />
@@ -78,12 +145,17 @@ const Contact = () => {
 
               <div>
                 <label className="text-[10px] font-black uppercase tracking-widest text-gray-500 block mb-2">Collaboration Interest</label>
-                <select className="w-full bg-black/40 border border-white/10 p-3 rounded-sm text-sm text-white focus:outline-none focus:border-[#ea222d] transition-all">
-                  <option className="bg-zinc-950">Brand Campaign & TVC</option>
-                  <option className="bg-zinc-950">Film Narrative & Original IP</option>
-                  <option className="bg-zinc-950">OTT Web Series & Short Format</option>
-                  <option className="bg-zinc-950">Creator Partnership</option>
-                  <option className="bg-zinc-950">Other Enquiries</option>
+                <select 
+                  name="interest"
+                  value={formData.interest}
+                  onChange={handleChange}
+                  className="w-full bg-black/40 border border-white/10 p-3 rounded-sm text-sm text-white focus:outline-none focus:border-[#ea222d] transition-all"
+                >
+                  <option className="bg-zinc-950" value="Brand Campaign & TVC">Brand Campaign & TVC</option>
+                  <option className="bg-zinc-950" value="Film Narrative & Original IP">Film Narrative & Original IP</option>
+                  <option className="bg-zinc-950" value="OTT Web Series & Short Format">OTT Web Series & Short Format</option>
+                  <option className="bg-zinc-950" value="Creator Partnership">Creator Partnership</option>
+                  <option className="bg-zinc-950" value="Other Enquiries">Other Enquiries</option>
                 </select>
               </div>
 
@@ -92,16 +164,26 @@ const Contact = () => {
                 <textarea 
                   rows={4} 
                   required
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
                   placeholder="Outline your idea or collaboration request..." 
                   className="w-full bg-black/40 border border-white/10 p-3 rounded-sm text-sm text-white placeholder-gray-600 focus:outline-none focus:border-[#ea222d] transition-all resize-none"
                 ></textarea>
               </div>
 
+              {status.message && (
+                <div className={`p-4 text-xs font-bold uppercase tracking-wider rounded-sm ${status.success ? 'bg-green-500/10 border border-green-500/20 text-green-400' : 'bg-[#ea222d]/10 border border-[#ea222d]/20 text-[#ea222d]'}`}>
+                  {status.message}
+                </div>
+              )}
+
               <button 
                 type="submit" 
-                className="w-full md:w-auto px-8 py-3.5 bg-[#ea222d] text-white font-black text-xs tracking-[0.2em] uppercase rounded-sm border border-black hover:bg-white hover:text-black transition-all flex items-center justify-center gap-2"
+                disabled={status.submitting}
+                className="w-full md:w-auto px-8 py-3.5 bg-[#ea222d] text-white font-black text-xs tracking-[0.2em] uppercase rounded-sm border border-black hover:bg-white hover:text-black transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Submit Inquiry <Send size={14} />
+                {status.submitting ? "Submitting..." : "Submit Inquiry"} <Send size={14} />
               </button>
             </form>
           </motion.div>
